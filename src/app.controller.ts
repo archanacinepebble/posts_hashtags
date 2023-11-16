@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
 import {FileInterceptor} from "@nestjs/platform-express";
-import {diskStorage} from "node_modules/multer";
+import {diskStorage} from "multer";
 import {Response} from "express";
 import  * as path from "path";
 
@@ -21,7 +21,7 @@ export class AppController {
   @UseInterceptors(FileInterceptor('file' , {
     storage : diskStorage({
       destination : "./uploads",
-      filename : (req , file , cb) => {
+      filename : (res, file, cb) => {
         cb(null , `${file.originalname}`)
       }
     })
@@ -34,11 +34,36 @@ export class AppController {
   }
 
 
-//  To Serve File
+//  To Serve Hashtags
+
   @Get("/getFile")
-  getFile(@Res() res : Response , @Body() file : FileParams)
+  getFHashTags(@Res() res : Response , @Body() file : FileParams)
   {
     res.sendFile(path.join(__dirname , "../uploads/" + file.fileName));
+  }
+
+  @Post("/upload_hash")
+  @UseInterceptors(FileInterceptor('hash' , {
+    storage : diskStorage({
+      destination : "./uploads_hashtags",
+      filename : (res, hash, cb) => {
+        cb(null , `${hash.originalname}`)
+      }
+    })
+  }))
+
+  
+  async uploadHashTags() {
+   // console.log(file);
+    return "success";
+  }
+
+
+//  To Serve File
+  @Get("/getFileHash")
+  getFile(@Res() res : Response , @Body() hash : FileParams)
+  {
+    res.sendFile(path.join(__dirname , "../uploads_hashtags/" + hash.fileName));
   }
 
 }

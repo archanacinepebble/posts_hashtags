@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { AppDataSource } from 'src/utilites/DataSource';
 import { Images } from 'src/entities/Images';
 import { CreateImagesParams, UpdateImagesParams } from 'src/utilites/types';
-import { Connection } from 'mysql2'
+import { Connection } from 'mysql'
 import { FilterDto } from 'src/dtos/filter.dto';
 @Injectable()
 export class ImagesService {
